@@ -1,5 +1,6 @@
 package com.codingame.gameengine.runner;
 
+import com.codingame.game.BoardGenerator;
 import com.codingame.gameengine.runner.MultiplayerGameRunner;
 
 import java.io.PipedInputStream;
@@ -37,6 +38,7 @@ public class CommandLineInterface {
 				.addOption("p2name", true, "Optional. Player 2 display name.")
 				.addOption("league", true, "Optional. League level.")
 				.addOption("seed", true, "Optional. Seed.")
+				.addOption("portable", false, "Optional. Portable seeds.")
 				.addOption("timeout", true, "Optional. Bot timeout.")
 				.addOption("s", false, "Server mode")
 				.addOption("l", true, "File output for logs")
@@ -50,6 +52,9 @@ public class CommandLineInterface {
 						options);
 				System.exit(0);
 			}
+
+			if (cmd.hasOption("portable"))
+				BoardGenerator.portableSeed = true;
 
 			MultiplayerGameRunner runner = new MultiplayerGameRunner();
 

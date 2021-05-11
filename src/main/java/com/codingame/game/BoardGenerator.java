@@ -1,6 +1,7 @@
 package com.codingame.game;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ public class BoardGenerator {
 
     static Map<CubeCoord, Cell> board;
     static int index;
+
+    public static boolean portableSeed = false;
 
     public static void generateCell(CubeCoord coord, int richness) {
         Cell cell = new Cell(index++);
@@ -43,6 +46,13 @@ public class BoardGenerator {
         }
 
         List<CubeCoord> coordList = new ArrayList<>(board.keySet());
+        if (portableSeed)
+	        coordList.sort(new Comparator<CubeCoord>() {
+				@Override
+				public int compare(CubeCoord a, CubeCoord b) {
+					return board.get(a).getIndex() - board.get(b).getIndex();
+				}
+	        });
         int coordListSize = coordList.size();
         int wantedEmptyCells = Game.ENABLE_HOLES ? random.nextInt(Config.MAX_EMPTY_CELLS + 1) : 0;
         int actualEmptyCells = 0;
